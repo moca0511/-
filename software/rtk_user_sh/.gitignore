@@ -1,0 +1,6 @@
+*.out
+*.o
+
+#パスワードを含むため無視する
+/config_master.txt
+/workspace.code-workspace

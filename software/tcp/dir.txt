@@ -1,0 +1,18 @@
+.
+├── Readme.md*
+├── dir.txt
+├── src/
+│   ├── c3.cpp*
+│   ├── gccClient.sh*
+│   ├── gccServer.sh*
+│   └── s1.cpp*
+└── tcpLib/
+	 ├── common/
+	 │   └── tcpStruct.h*
+	 ├── myClient/
+	 │   ├── tcpClient.cpp*
+	 │   └── tcpClient.h*
+	 └── myServer/
+		  ├── tcpServer.cpp*
+		  └── tcpServer.h*
+

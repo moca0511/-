@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 					{
 						*ptr = '\0';
 					}
-					printf("read[from:%s(id=%d)]:%s\n", clientR.userName,i, clientR.buf);
+					printf("read[from:%s(id=%d)(dataType=%d)]:%s\n", clientR.userName,i,clientR.dataType, clientR.buf);
 					for (int j = 0; j < CHILD_MAX; j++)
 					{
 						if ((child[i] != -1) && (i != j)) //受信した相手には送信しない

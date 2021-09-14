@@ -1,0 +1,17 @@
+
+・環境変数を永続化するには
+/etc/profile などに追加
+
+参考
+https://www.kannon.link/fuku/index.php/2016/09/09/01-3/
+
+ex)
+export PRO4_ROVER_DIR_PATH="/home/pi/***/rover/"
+
+pro4_rover_path.pathについて
+$ cat pro4_rover_path.path
+PRO4_ROVER_DIR_PATH="/home/pi/***/rover/"
+
+sudo時に環境変数が引継がれないことがあるので注意
+https://neos21.net/blog/2018/09/07-02.html
+$ sudo -E 【コマンド】

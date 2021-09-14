@@ -1,0 +1,9 @@
+*.o
+*.a
+*.out
+*.exe
+
+/src/test/test/
+/src/test/test/*
+
+*.log

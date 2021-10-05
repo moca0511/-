@@ -77,6 +77,7 @@
 	</script>
 	<script>
 		function stop_rover(){
+			console.log('POST');
 			const ymdField = document.getElementById('ymd-id');
 			const timeField = document.getElementById('time-id');
 			// const sOrAField = document.getElementById('start_arrival-id');
@@ -86,12 +87,13 @@
 			// sOrAField.value = "start";
 			// stateField.value = "stop_rover";
 			document.frmMain.submit();
+  			return false;
 		}
 	</script>
 
 	</head>
 	<body>
-		<form action="php/log.php" method="POST" name="frmMain">
+		<form action="php/log.php" method="POST" name="frmMain" target="sendPhoto">
 			<input type="hidden" name="state" id="state-id" value="stop_rover">
 			<input type="hidden" name="ymd" id="ymd-id" value="0000/00/00">
 			<input type="hidden" name="time" id="time-id" value="00:00:00">
@@ -134,9 +136,8 @@
 			
 		</ons-page>
 		
-	<script src="https://maps.googleapis.com/maps/api/js?&callback=initMap" async defer></script>
-<!-- APIkey丸出しだったため、消去　サーバの環境変数等で設定する    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script> -->
 
-
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDy_HecQGmuV8HTbl_z3j6cJ7OCOMfaw0o&callback=initMap" async defer></script>
+	<iframe name="sendPhoto" style="width:0px;height:0px;border:0px;"></iframe>
 	</body>
 </html>

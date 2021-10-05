@@ -1,0 +1,3 @@
+vincentyの参考URL
+https://www.mk-mode.com/blog/2020/10/14/cpp-geodesical-calculation-by-vincenty-1/
+https://www.mk-mode.com/blog/2020/10/21/cpp-geodesical-calculation-by-vincenty-2/

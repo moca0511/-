@@ -32,7 +32,7 @@
 
 		#vision_console {
 			height: 100%;
-			width: 50%;
+			width: 55%;
 			float : left;
 			background:black;
 			color:white;
@@ -51,8 +51,8 @@
 		}
 
 		#map {
-			height: 100%;
-			width: 50%;
+			height: 70%;
+			width: 45%;
 			float : right;
 			font-size:200%;
 			text-align: center;
@@ -60,10 +60,23 @@
 			align-items: center;
 			justify-content: center
 		}
+		
 		#map p{
 		margin: 0;
 		}
-			
+		#pad {
+			height: 30%;
+			width: 45%;
+			float : right;
+			background:white;
+			color:black;
+		}
+		#pad button{
+
+		}
+		#up{
+
+		}	
 	</style>
 
 	<script>
@@ -77,7 +90,20 @@
 	</script>
 	<script>
 		function stop_rover(){
-			console.log('POST');
+			console.log('stop_rover');
+			const ymdField = document.getElementById('ymd-id');
+			const timeField = document.getElementById('time-id');
+			// const sOrAField = document.getElementById('start_arrival-id');
+			const stateField = document.getElementById('state-id');
+			ymdField.value = "0000/00/00";
+			timeField.value = "00:00:00";
+			// sOrAField.value = "start";
+			stateField.value = "stop";
+			document.frmMain.submit();
+  			return false;
+		}
+		function move_forward_rover(){
+			console.log('move_forward_rover');
 			const ymdField = document.getElementById('ymd-id');
 			const timeField = document.getElementById('time-id');
 			// const sOrAField = document.getElementById('start_arrival-id');
@@ -86,6 +112,47 @@
 			timeField.value = "00:00:00";
 			// sOrAField.value = "start";
 			// stateField.value = "stop_rover";
+			stateField.value = "move_forward";
+			document.frmMain.submit();
+  			return false;
+		}
+		function move_back_rover(){
+			console.log('move_back_rover');
+			const ymdField = document.getElementById('ymd-id');
+			const timeField = document.getElementById('time-id');
+			// const sOrAField = document.getElementById('start_arrival-id');
+			const stateField = document.getElementById('state-id');
+			ymdField.value = "0000/00/00";
+			timeField.value = "00:00:00";
+			stateField.value = "move_back";
+			// sOrAField.value = "start";
+			// stateField.value = "stop_rover";
+			document.frmMain.submit();
+  			return false;
+		}
+		function turn_right_rover(){
+			console.log('turn_right_rover');
+			const ymdField = document.getElementById('ymd-id');
+			const timeField = document.getElementById('time-id');
+			// const sOrAField = document.getElementById('start_arrival-id');
+			const stateField = document.getElementById('state-id');
+			ymdField.value = "0000/00/00";
+			timeField.value = "00:00:00";
+			// sOrAField.value = "start";
+			stateField.value = "turn_right";
+			document.frmMain.submit();
+  			return false;
+		}
+		function turn_left_rover(){
+			console.log('turn_left_rover');
+			const ymdField = document.getElementById('ymd-id');
+			const timeField = document.getElementById('time-id');
+			// const sOrAField = document.getElementById('start_arrival-id');
+			const stateField = document.getElementById('state-id');
+			ymdField.value = "0000/00/00";
+			timeField.value = "00:00:00";
+			// sOrAField.value = "start";
+			stateField.value = "turn_left";
 			document.frmMain.submit();
   			return false;
 		}
@@ -104,7 +171,7 @@
 				<div class="center" onmousedown="location.href='./index.html'">SelfDrivingRobot</div>
 				<div class="right">
 					<ons-toolbar-button>
-						<ons-icon icon="fa-gamepad" onclick="location.href='./pad.html'"></ons-icon>
+						<ons-icon icon="fa-gamepad"></ons-icon>
 					</ons-toolbar-button>
 					<ons-toolbar-button>
 						<ons-icon icon="fa-map-marker-alt"></ons-icon>
@@ -133,7 +200,15 @@
 					<p>Location information acquisition</p>
 				</div>
 			</div>
-			
+			<div id="pad">
+					<button id="up" onmousedown="move_forward_rover();" onclick="stop_rover();">↑</button>
+					<button id="down" onmousedown="move_back_rover();" onclick="stop_rover();">↓</button>
+					<button id="right" onmousedown="turn_right_rover();" onclick="stop_rover();">→</button>
+					<button id="left" onmousedown="turn_left_rover();" onclick="stop_rover();">←</button>
+					<button onclick="stop_rover();">
+						<ons-icon style="color: red;" icon="fa-ban"></ons-icon>
+					</button>
+			</div>
 		</ons-page>
 		
 

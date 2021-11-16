@@ -22,7 +22,9 @@ last=`update $1`
 line=`cat $1 | wc -l`
 line_log=`cat $1 | wc -l`
 update_line=0
-mode=0
+mode_str="stop"
+mode_num=0
+update="0"
 while true;
 do
   sleepenh $INTERVAL > 0
@@ -42,8 +44,25 @@ do
     for i in `seq 1 $((update_line))`
     do
 	    echo "$i"
-	    cat /var/www/html/log/log.csv | head -n $((line-update_line+i)) | tail -n 1
-#コマンド解析　POST    
-    done
+	    update=`cat /var/www/html/log/log.csv | head -n $((line-update_line+i)) | tail -n 1`
+	    echo "$update"
+#コマンド解析　POST
+		mode_str=`echo $update | cut -d, -f3`
+		case "$mode_str" in
+		"stop" ) mode_num=0;;
+		"move_forward" ) mode_num=1;;
+		"move_back" ) mode_num=2;;
+		"turn_right" ) mode_num=3;;
+		"turn_left" ) mode_num=4;;
+		"auto" ) mode_num=5;;
+		esac
+		echo "$mode_num $mode_str"
+		if [ 5 -ne $mode_num ];then
+		  python /var/www/html/python/sendJson.py $mode_num 0.0 0.0
+		else
+		  echo "sukejyu-ru"
+		fi
+		echo "\n"
+	done
   fi  
 done

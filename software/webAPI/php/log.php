@@ -20,13 +20,13 @@
         if(!fputcsv($FP,$arr))
             echo "<br>書込に失敗しました";
         else
-            echo "<br>�?ータを書込ました";
+            echo "<br>データを書込ました";
         fclose($FP);
     }
 ?>
 </HEAD>
 <!-- <BODY onLoad=setTimeout("location.href='../index.html'",0)> -->
-<!-- <P>�?3秒後にジャンプしま�?(JavaScript�?)</P> -->
+<!-- <P>�?3秒後にジャンプしま�?(JavaScript�?)</P> -->
 </BODY>
 </HTML>
 

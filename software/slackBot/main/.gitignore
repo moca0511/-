@@ -1,0 +1,5 @@
+slackbot/__pycache__/*
+slackbot/plugins/__pycache__/*
+slackbot/token.json
+
+./config

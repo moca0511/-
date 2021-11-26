@@ -19,20 +19,22 @@ def sendMessage(url, header, chId, text):
     return requests.post(url, headers=header, data=data)
 
 
-api_keys = getJsonFile("./config/token.json")  # apiKeysをファイルから読み込み
+if __name__ == "__main__":
 
-# slack送信用データを設定
-token = api_keys['token_user']
-url_send = "https://slack.com/api/chat.postMessage"
-head = {"Authorization": "Bearer {}".format(token)}
-channelId = api_keys['channel']
+    api_keys = getJsonFile("./config/token.json")  # apiKeysをファイルから読み込み
 
-# 送信用テキストデータの設定
-args = sys.argv
-mySendMessage = 'メッセージ送信のテストです。'
-if 2 <= len(args):
-    mySendMessage = args[1]
+    # slack送信用データを設定
+    token = api_keys['token_user']
+    url_send = "https://slack.com/api/chat.postMessage"
+    head = {"Authorization": "Bearer {}".format(token)}
+    channelId = api_keys['channel']
 
-# メッセージの送信と結果の読み込み
-r = sendMessage(url_send, head, channelId, mySendMessage)
-print("return ", r.json())  # 送信成功と失敗の確認用
+    # 送信用テキストデータの設定
+    args = sys.argv
+    mySendMessage = 'メッセージ送信のテストです。'
+    if 2 <= len(args):
+        mySendMessage = args[1]
+
+    # メッセージの送信と結果の読み込み
+    r = sendMessage(url_send, head, channelId, mySendMessage)
+    print("return ", r.json())  # 送信成功と失敗の確認用

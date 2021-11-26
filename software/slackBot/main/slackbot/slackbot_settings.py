@@ -9,7 +9,7 @@ import my_common
 API_TOKEN = my_common.api_keys["token_bot"]
 
 # このbot宛のメッセージで、どの応答にも当てはまらない場合の応答文字列
-DEFAULT_REPLY = "何言ってんだこいつ"
+# DEFAULT_REPLY = "何言ってんだこいつ"
 
 # プラグインスクリプトを置いてあるサブディレクトリ名のリスト
 PLUGINS = ['plugins']

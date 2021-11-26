@@ -1,0 +1,18 @@
+#authtoken: 
+region: ap
+
+tunnels:
+  mySSH_rover:
+    addr: 22
+    proto: tcp
+  tcp1_rover:
+    addr: 8000
+    proto: tcp
+  serverHttp_rover:
+    addr: 80
+    proto: http
+    bind_tls: false
+  serverHttps_rover:
+    addr: 81
+    proto: http
+    bind_tls: true

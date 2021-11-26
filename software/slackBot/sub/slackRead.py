@@ -1,6 +1,9 @@
 # python3.6
 import json
 import requests
+import sys
+
+# slackのチャンネルからメッセージを読み込み処理
 
 """
 ngrok_urlをslackから検索したときに得られる文字列の例
@@ -11,8 +14,6 @@ serverHttps    http://localhost:6081    -> https://da24-240b-253-c781-f700-53c0-
 mySSH         localhost:6022           -> tcp://0.tcp.ap.ngrok.io:10128
 tcp1          localhost:8000         -> tcp://0.tcp.ap.ngrok.io:14753
 """
-
-# slackのチャンネルからメッセージを読み込み処理
 
 
 # Jsonファイル読み込み
@@ -34,11 +35,14 @@ def getMessageLog(_url, _headersk, _params):
 
 # 引数textを含む最新のメッセージをslackのメッセージリスト(引数messages)から検索
 # 戻り値1:引数textを含む最新のメッセージ、
-# 戻り値2:最新のメッセージから何個目のメッセージか
-def searchLog_text(text, messages):
+# 戻り値2:最新のメッセージから何個目のメッセージか(999は読み込むメッセージの最大数より多い必要がある)
+def searchLog_text(text, messages, mode):
+    tag = "botMode = " + '`' + mode + '`'
     for i, message in enumerate(messages):
-        if text in message["text"]:
-            return message["text"], i
+        if (tag in message["text"]):
+            if (text in message["text"]):
+                return message["text"], i
+    return None, 999
 
 
 # 複数行のメッセージからpoint番目のngrokのURLを取り出す
@@ -55,37 +59,77 @@ def getTag(text, point):
     return ss_text[0]
 
 
-api_keys = getJsonFile("./config/token.json")  # apiKeysをファイルから読み込み
+def getSlackMsg(mode):
+    api_keys = getJsonFile("./config/token.json")  # apiKeysをファイルから読み込み
 
-# slack読み込み用データを設定
-token = api_keys['token_user']
-url_history = "https://slack.com/api/conversations.history"
-payload = {"channel": api_keys['channel'], "limit": "50"}
-header = {"Authorization": "Bearer {}".format(token)}
+    # slack読み込み用データを設定
+    token = api_keys['token_user']
+    url_history = "https://slack.com/api/conversations.history"
+    payload = {"channel": api_keys['channel']}  # "limit": "50"
+    header = {"Authorization": "Bearer {}".format(token)}
 
-# メッセージの読み込み
-messages = getMessageLog(url_history, header, payload)          # メッセージの読み込み
-text1, num_NgrokOn = searchLog_text("ngrok_url", messages)
-text, num_BotEnd = searchLog_text("end slackbot", messages)
-text, num_BotStart = searchLog_text("start slackbot", messages)
-text, num_NgrokOff = searchLog_text("ok_Off", messages)
+    # メッセージの読み込み
+    messages = getMessageLog(
+        url_history, header, payload)          # メッセージの読み込み
+    text, num_BotEnd = searchLog_text("end slackbot", messages, mode)
+    text, num_BotStart = searchLog_text("start slackbot", messages, mode)
+    text, num_NgrokOff = searchLog_text("ok_Off", messages, mode)
+    text1, num_NgrokOn = searchLog_text("ngrok_url", messages, mode)
 
-# slackBotとngrokの起動状態の確認
-getFlg = 0  # ngrokとslackBotが起動中華の確認用変数
-# num_XXXXは小さいほど最新の通知に近い
-if num_BotStart < num_BotEnd:
-    # slackBot起動中
-    if (num_NgrokOn < num_BotEnd) & (num_NgrokOn < num_NgrokOff):
-        print("slackBot, ngrok = 起動中")
-        getFlg = 1
+    text, num_f9pOn = searchLog_text("f9p_on_ok", messages, mode)
+    text, num_f9pOff = searchLog_text("f9p_off_ok", messages, mode)
+
+    """
+    print(num_BotEnd)
+    print(num_BotStart)
+    print(num_NgrokOff)
+    print(num_NgrokOn)
+    """
+
+    # slackBotとngrokの起動状態の確認
+    getFlg = 0  # ngrokとslackBotが起動中華の確認用変数
+    # num_XXXXは小さいほど最新の通知に近い
+    rData = 0
+    if num_BotStart < num_BotEnd:
+        # slackBot起動中
+        if (num_NgrokOn < num_BotEnd) & (num_NgrokOn < num_NgrokOff):
+            if(mode == "base") & (num_f9pOn < num_f9pOff):
+                rData = 4
+            else:
+                rData = 3
+        else:
+            rData = 2
     else:
-        print("slackBot = 起動中, ngrok = 停止中")
-else:
-    print("slackBot = 停止中")
+        rData = 1
+    return rData, text1
 
-# ngrokのURLとトンネル識別用タグの抽出
-if getFlg == 1:
-    print("抽出")
-    for i in range(1, 5):
-        print(getTag(text1, i) + " : ", end="")
-        print(getURL(text1, i))
+
+if __name__ == "__main__":
+    if(len(sys.argv) != 2):
+        mode = "deff"
+    else:
+        if (sys.argv[1] == "server") | (sys.argv[1] == "base") | (sys.argv[1] == "rover"):
+            mode = sys.argv[1]
+        else:
+            # 基本的にdeffモードで起動 main_start.shが常に引数を渡すため
+            mode = "deff"
+
+    print("nowMode=" + mode)
+
+    rData, text1 = getSlackMsg(mode)
+
+    if rData == 4:
+        print("slackBot, ngrok, str2str = 起動中")
+    elif rData == 3:
+        print("slackBot, ngrok = 起動中")
+    elif rData == 2:
+        print("slackBot = 起動中, ngrok = 停止中")
+    elif rData == 1:
+        print("slackBot = 停止中")
+
+    # ngrokのURLとトンネル識別用タグの抽出
+    if rData >= 3:
+        print("抽出")
+        for i in range(1, 5):
+            print(getTag(text1, i) + " : ", end="")
+            print(getURL(text1, i))

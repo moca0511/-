@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 7
+Sheet 2 8
 Title ""
 Date ""
 Rev ""
@@ -24,53 +24,24 @@ F 3 "" H 7550 3350 50  0001 C CNN
 	1    7550 3350
 	1    0    0    -1  
 $EndComp
-Text HLabel 8600 2400 2    50   Input ~ 0
-pico_power+
-Text HLabel 8600 2500 2    50   Input ~ 0
-pico_power-
 Wire Wire Line
-	8600 2500 8600 2600
-Wire Wire Line
-	8600 2600 8250 2600
-Wire Wire Line
-	8250 2400 8600 2400
-$Comp
-L power:+3.3V #PWR?
-U 1 1 617DF518
-P 8500 2750
-F 0 "#PWR?" H 8500 2600 50  0001 C CNN
-F 1 "+3.3V" H 8515 2923 50  0000 C CNN
-F 2 "" H 8500 2750 50  0001 C CNN
-F 3 "" H 8500 2750 50  0001 C CNN
-	1    8500 2750
-	1    0    0    -1  
-$EndComp
+	8250 2400 8450 2400
 $Comp
 L pspice:0 #GND?
 U 1 1 617DF7FF
-P 8550 3700
-F 0 "#GND?" H 8550 3600 50  0001 C CNN
-F 1 "0" H 8550 3789 50  0000 C CNN
-F 2 "" H 8550 3700 50  0001 C CNN
-F 3 "~" H 8550 3700 50  0001 C CNN
-	1    8550 3700
-	1    0    0    -1  
+P 6050 4200
+F 0 "#GND?" H 6050 4100 50  0001 C CNN
+F 1 "0" H 6050 4289 50  0000 C CNN
+F 2 "" H 6050 4200 50  0001 C CNN
+F 3 "~" H 6050 4200 50  0001 C CNN
+	1    6050 4200
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
-	8250 2800 8500 2800
-Wire Wire Line
-	8500 2800 8500 2750
-Wire Wire Line
-	8250 3600 8550 3600
-Wire Wire Line
-	8550 3600 8550 3700
-Text Label 6850 2400 2    50   ~ 0
-SDA
-Text Label 6850 2500 2    50   ~ 0
+	6050 4100 6050 4200
+Text GLabel 6700 2500 0    50   Input ~ 0
 SCL
-Text GLabel 6700 2800 0    50   Input ~ 0
-SCL
-Text GLabel 6700 2700 0    50   Input ~ 0
+Text GLabel 6700 2400 0    50   Input ~ 0
 SDA
 $Comp
 L Connector:Conn_01x06_Female J?
@@ -83,8 +54,6 @@ F 3 "~" H 3250 2650 50  0001 C CNN
 	1    3250 2650
 	-1   0    0    -1  
 $EndComp
-Text GLabel 4250 2350 1    50   Input ~ 0
-SCL
 Text GLabel 4150 2350 1    50   Input ~ 0
 SDA
 $Comp
@@ -214,26 +183,10 @@ Wire Wire Line
 	3450 4550 4250 4550
 Wire Wire Line
 	3450 4650 4400 4650
-Connection ~ 3950 3650
 Wire Wire Line
-	3950 3650 3950 4250
-Connection ~ 3950 4250
-Connection ~ 4050 3750
+	6850 2400 6700 2400
 Wire Wire Line
-	4050 3750 4050 4350
-Connection ~ 4050 4350
-Connection ~ 4150 3850
-Wire Wire Line
-	4150 3850 4150 4450
-Connection ~ 4150 4450
-Connection ~ 4250 3950
-Wire Wire Line
-	4250 3950 4250 4550
-Connection ~ 4250 4550
-Wire Wire Line
-	6850 2700 6700 2700
-Wire Wire Line
-	6700 2800 6850 2800
+	6700 2500 6850 2500
 Text GLabel 4400 2850 2    50   Input ~ 0
 XSHUT_1
 Text GLabel 4400 3450 2    50   Input ~ 0
@@ -250,50 +203,6 @@ Text GLabel 6850 3200 0    50   Input ~ 0
 XSHUT_3
 Text GLabel 6850 3300 0    50   Input ~ 0
 XSHUT_4
-$Comp
-L pspice:0 #GND?
-U 1 1 6180EDD5
-P 6200 2600
-F 0 "#GND?" H 6200 2500 50  0001 C CNN
-F 1 "0" H 6200 2689 50  0000 C CNN
-F 2 "" H 6200 2600 50  0001 C CNN
-F 3 "~" H 6200 2600 50  0001 C CNN
-	1    6200 2600
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+3.3V #PWR?
-U 1 1 61811F2F
-P 6250 2350
-F 0 "#PWR?" H 6250 2200 50  0001 C CNN
-F 1 "+3.3V" H 6265 2523 50  0000 C CNN
-F 2 "" H 6250 2350 50  0001 C CNN
-F 3 "" H 6250 2350 50  0001 C CNN
-	1    6250 2350
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6100 2350 6250 2350
-Wire Wire Line
-	6100 2400 6850 2400
-Wire Wire Line
-	6100 2500 6850 2500
-Wire Wire Line
-	6100 2550 6200 2550
-Wire Wire Line
-	6200 2550 6200 2600
-Entry Wire Line
-	6000 2250 6100 2350
-Entry Wire Line
-	6000 2300 6100 2400
-Entry Wire Line
-	6000 2400 6100 2500
-Entry Wire Line
-	6000 2450 6100 2550
-Wire Bus Line
-	6000 2700 5850 2700
-Text HLabel 5850 2700 0    50   Input ~ 0
-I2C_3.3V
 $Comp
 L Connector:Conn_01x06_Female J?
 U 1 1 6165B6FE
@@ -364,6 +273,170 @@ Text GLabel 6850 3400 0    50   Input ~ 0
 XSHUT_5
 Text GLabel 6850 3500 0    50   Input ~ 0
 XSHUT_6
+$Comp
+L Switch:SW_DPDT_x2 SW?
+U 1 1 6170B581
+P 8600 3400
+F 0 "SW?" H 8600 3685 50  0000 C CNN
+F 1 "SW_DPDT_x2" H 8600 3594 50  0000 C CNN
+F 2 "" H 8600 3400 50  0001 C CNN
+F 3 "~" H 8600 3400 50  0001 C CNN
+	1    8600 3400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8250 3400 8400 3400
+Wire Wire Line
+	8800 3600 8250 3600
+$Comp
+L power:+5V #PWR?
+U 1 1 61714813
+P 8450 2400
+F 0 "#PWR?" H 8450 2250 50  0001 C CNN
+F 1 "+5V" H 8465 2573 50  0000 C CNN
+F 2 "" H 8450 2400 50  0001 C CNN
+F 3 "" H 8450 2400 50  0001 C CNN
+	1    8450 2400
+	1    0    0    -1  
+$EndComp
+Connection ~ 8450 2400
+Wire Wire Line
+	8800 3500 8800 3600
+$Comp
+L Switch:SW_DPDT_x2 SW?
+U 1 1 6176D1FA
+P 9150 4000
+F 0 "SW?" H 9150 4285 50  0000 C CNN
+F 1 "SW_DPDT_x2" H 9150 4194 50  0000 C CNN
+F 2 "" H 9150 4000 50  0001 C CNN
+F 3 "~" H 9150 4000 50  0001 C CNN
+	1    9150 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8250 4100 8450 4100
+Wire Wire Line
+	8450 4100 8450 4250
+Wire Wire Line
+	8450 4250 9350 4250
+Wire Wire Line
+	9350 4100 9350 4250
+Wire Wire Line
+	8250 4000 8950 4000
+$Comp
+L Device:R R?
+U 1 1 61783364
+P 8950 3550
+F 0 "R?" H 9020 3596 50  0000 L CNN
+F 1 "R" H 9020 3505 50  0000 L CNN
+F 2 "" V 8880 3550 50  0001 C CNN
+F 3 "~" H 8950 3550 50  0001 C CNN
+	1    8950 3550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8950 2800 8950 3400
+Wire Wire Line
+	8950 3700 8950 4000
+Connection ~ 8950 4000
+Connection ~ 4050 4350
+Connection ~ 4050 3750
+Wire Wire Line
+	4050 3750 4050 4350
+Connection ~ 3950 4250
+Connection ~ 3950 3650
+Wire Wire Line
+	3950 3650 3950 4250
+Text GLabel 4250 2350 1    50   Input ~ 0
+SCL
+Text GLabel 4400 4450 2    50   Input ~ 0
+SDA2
+Text GLabel 4400 4550 2    50   Input ~ 0
+SCL2
+Wire Wire Line
+	4150 4450 4400 4450
+Connection ~ 4150 4450
+Wire Wire Line
+	4250 4550 4400 4550
+Connection ~ 4250 4550
+Text GLabel 6700 2700 0    50   Input ~ 0
+SDA2
+Text GLabel 6700 2800 0    50   Input ~ 0
+SCL2
+Wire Wire Line
+	6700 2700 6850 2700
+Wire Wire Line
+	6850 2800 6700 2800
+Wire Wire Line
+	8950 2800 8250 2800
+Text GLabel 6750 3800 0    50   Input ~ 0
+WALL_FRONT
+Text GLabel 6750 3900 0    50   Input ~ 0
+WALL_RIGHT
+Text GLabel 6700 4200 0    50   Input ~ 0
+WALLPOST
+Text GLabel 6700 4300 0    50   Input ~ 0
+WALL_LEFt
+Wire Wire Line
+	6050 4100 6850 4100
+Wire Wire Line
+	6850 4200 6700 4200
+Wire Wire Line
+	6850 4300 6700 4300
+Wire Wire Line
+	6750 3900 6850 3900
+Wire Wire Line
+	6850 3800 6750 3800
+Text GLabel 9900 2200 0    50   Input ~ 0
+WALL_FRONT
+Text GLabel 9900 2300 0    50   Input ~ 0
+WALL_RIGHT
+Text GLabel 9900 2400 0    50   Input ~ 0
+WALLPOST
+Text GLabel 9900 2500 0    50   Input ~ 0
+WALL_LEFt
+Wire Wire Line
+	8250 2500 9350 2500
+Wire Wire Line
+	9350 2500 9350 2600
+Wire Wire Line
+	9350 2600 9900 2600
+Wire Wire Line
+	8450 2400 9300 2400
+Entry Bus Bus
+	9900 2200 10000 2300
+Entry Bus Bus
+	9900 2300 10000 2400
+Entry Bus Bus
+	9900 2400 10000 2500
+Entry Bus Bus
+	9900 2500 10000 2600
+Entry Bus Bus
+	9900 2600 10000 2700
+Text HLabel 10250 2750 2    50   BiDi ~ 0
+PICO_QUICK
 Wire Bus Line
-	6000 2250 6000 2700
+	10000 2750 10100 2750
+Connection ~ 9350 2500
+Entry Bus Bus
+	9350 1950 9450 2050
+Entry Bus Bus
+	9350 1900 9450 2000
+Wire Wire Line
+	9350 1950 9350 2500
+Wire Wire Line
+	9300 1900 9350 1900
+Wire Wire Line
+	9300 1900 9300 2400
+Wire Bus Line
+	9450 2100 10100 2100
+Wire Bus Line
+	10100 2100 10100 2750
+Wire Bus Line
+	9450 2000 9450 2100
+Wire Bus Line
+	10000 2200 10000 2750
+Connection ~ 10100 2750
+Wire Bus Line
+	10100 2750 10250 2750
 $EndSCHEMATC

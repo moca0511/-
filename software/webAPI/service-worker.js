@@ -2,7 +2,6 @@ var CACHE_NAME = 'my-cache-v1';
 var urlsToCache = [
   '/',
   '/css/style.css',
-  '/js/map.js'
 ];
 
 self.addEventListener('install', function (event) {
@@ -48,7 +47,10 @@ self.addEventListener('fetch', function (event) {
           var responseToCache = response.clone();
           caches.open(CACHE_NAME)
             .then(function (cache) {
-              cache.put(event.request, responseToCache);
+		if(event.request.method !== "POST")
+                {      
+              		cache.put(event.request, responseToCache);
+		}
             });
           return response;
         }

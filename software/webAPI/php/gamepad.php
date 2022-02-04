@@ -6,7 +6,7 @@
 	<meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
 	<script src="../components/loader.js"></script>
 	<script src="../lib/onsenui/js/onsenui.min.js"></script>
-	<script src="../js/map.js"></script>
+
 	
 
 	<link rel="stylesheet" href="../components/loader.css">
@@ -33,8 +33,8 @@
 			background:white;
 			color:black;
 		}
-		#pad button{
-
+		#pad{
+			padding: 10px;
 		}
 		#up{
 
@@ -60,7 +60,7 @@
 			ymdField.value = "0000/00/00";
 			timeField.value = "00:00:00";
 			// sOrAField.value = "start";
-			stateField.value = "stop";
+			stateField.value = "0";
 			document.frmMain.submit();
   			return false;
 		}
@@ -74,7 +74,7 @@
 			timeField.value = "00:00:00";
 			// sOrAField.value = "start";
 			// stateField.value = "stop_rover";
-			stateField.value = "move_forward";
+			stateField.value = "1";
 			document.frmMain.submit();
   			return false;
 		}
@@ -86,7 +86,7 @@
 			const stateField = document.getElementById('state-id');
 			ymdField.value = "0000/00/00";
 			timeField.value = "00:00:00";
-			stateField.value = "move_back";
+			stateField.value = "2";
 			// sOrAField.value = "start";
 			// stateField.value = "stop_rover";
 			document.frmMain.submit();
@@ -101,7 +101,7 @@
 			ymdField.value = "0000/00/00";
 			timeField.value = "00:00:00";
 			// sOrAField.value = "start";
-			stateField.value = "turn_right";
+			stateField.value = "3";
 			document.frmMain.submit();
   			return false;
 		}
@@ -114,7 +114,7 @@
 			ymdField.value = "0000/00/00";
 			timeField.value = "00:00:00";
 			// sOrAField.value = "start";
-			stateField.value = "turn_left";
+			stateField.value = "4";
 			document.frmMain.submit();
   			return false;
 		}
@@ -126,15 +126,20 @@
 			<input type="hidden" name="state" id="state-id" value="stop_rover">
 			<input type="hidden" name="ymd" id="ymd-id" value="0000/00/00">
 			<input type="hidden" name="time" id="time-id" value="00:00:00">
+			<input type="hidden" name="lat" id="lat-id" value="0">
+			<input type="hidden" name="lng" id="lng-id" value="0">
 			<!-- <input type="hidden" name="start_arrival" id="start_arrival-id" value="start"> -->
 		</form>
-		<button id="up" ontouchstart="move_forward_rover();" onmousedown="move_forward_rover();" onclick="stop_rover();" ontouchcancel="stop_rover();" ontouchend="stop_rover();">↑</button>
+		<div id="pad">
+			<button id="up" ontouchstart="move_forward_rover();" onmousedown="move_forward_rover();" onclick="stop_rover();" ontouchcancel="stop_rover();" ontouchend="stop_rover();">↑</button>
 		<button id="down" ontouchstart="move_back_rover();"onmousedown="move_back_rover();" onclick="stop_rover();" ontouchcancel="stop_rover();" ontouchend="stop_rover();">↓</button>
 		<button id="right" ontouchstart="turn_right_rover();"onmousedown="turn_right_rover();" onclick="stop_rover();" ontouchcancel="stop_rover();" ontouchend="stop_rover();">→</button>
 		<button id="left" ontouchstart="turn_left_rover();"onmousedown="turn_left_rover();" onclick="stop_rover();" ontouchcancel="stop_rover();" ontouchend="stop_rover();">←</button>
 		<button onclick="stop_rover();">
 			<ons-icon style="color: red;" icon="fa-ban"></ons-icon>
 		</button>
+		</div>
+		
 		
 	<iframe name="sendPhoto" style="width:0px;height:0px;border:0px;"></iframe>
 	</body>

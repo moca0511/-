@@ -6,8 +6,9 @@
 	<meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
 	<script src="../components/loader.js"></script>
 	<script src="../lib/onsenui/js/onsenui.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	
+	
 	<script>
 		var rover_lat=-1.0;
 		var rover_lng=-1.0;
@@ -84,10 +85,13 @@
 			  map: map
 			 });
 			 
+			 
 			rover_marker.setMap(map);
-// クリックイベントを追加
+			target_marker.setMap(null);
+			
+			// クリックイベントを追加
 			map.addListener('click', function(e) {
-				mapCenterToRover();
+				setMarker(e.latLng, map);
 			});
 			while(1){
 				const _sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -116,17 +120,26 @@
 			//   MarkerClear();
 
 			console.log("lat:"+lat_lng.lat()+"\nlng:"+lat_lng.lng()+"\n");
-
-
-			// マーカーを設置
-			var marker = new google.maps.Marker({
-				position: lat_lng,
-				map: map
-			});
-
+			target_marker.setMap(null);
+			targetLatlng=lat_lng;
+			target_marker.position=targetLatlng;
+			target_marker.setMap(map);
+			
+			document.getElementById('lat-id').value = targetLatlng.lat();
+			document.getElementById('lng-id').value = targetLatlng.lng();
 			// 座標の中心をaずらす
 			// http://syncer.jp/google-maps-javascript-api-matome/map/method/panTo/
 			map.panTo(lat_lng);
+		}
+		
+		function set_target_pin(){
+			
+			target_marker.setMap(null);
+			targetLatlng=new google.maps.LatLng(parseFloat(document.getElementById('lat-id').value), parseFloat(document.getElementById('lng-id').value));
+			console.log("target=" + targetLatlng);
+			target_marker.position=targetLatlng;
+			target_marker.setMap(map);
+			mapCenterToTarget();
 		}
 	
 		function getRoverLatlng(){
@@ -156,8 +169,7 @@
 					
 				}
 			 
-			});
-			jQuery.ajax({
+			});jQuery.ajax({
 				
 				type: 'post',
 				url: '../php/get_rover_state.php', //送信先PHPファイル
@@ -253,19 +265,29 @@
 		#map p{
 		margin: 0;
 		}
-		#pad {
+		#target_area {
 			height: 25%;
 			width: 50%;
 			float : right;
 			background:white;
 			color:black;
 		}
-		#pad button{
-
+		#target{
+			padding: 0px 10px 10px 10px;
 		}
-		#up{
-
-		}	
+		input[type="text"],
+		textarea {
+			width: 60%;
+		}
+		#latlng{
+			width: 70%;
+			hight: 100%;
+			float : left;
+		}
+		#button_area button{
+			margin: 5px;
+		}
+		
 	</style>
 
 	<script>
@@ -345,18 +367,23 @@
 			document.frmMain.submit();
   			return false;
 		}
+		function send_target(){
+			console.log('send_target');
+			const ymdField = document.getElementById('ymd-id');
+			const timeField = document.getElementById('time-id');
+			// const sOrAField = document.getElementById('start_arrival-id');
+			const stateField = document.getElementById('state-id');
+			ymdField.value = "0000/00/00";
+			timeField.value = "00:00:00";
+			// sOrAField.value = "start";
+			stateField.value = "5";
+			document.frmMain.submit();
+		}
 	</script>
 
 	</head>
 	<body>
-		<form action="./log.php" method="POST" name="frmMain" target="sendPhoto">
-			<input type="hidden" name="state" id="state-id" value="stop_rover">
-			<input type="hidden" name="ymd" id="ymd-id" value="0000/00/00">
-			<input type="hidden" name="time" id="time-id" value="00:00:00">
-			<input type="hidden" name="lat" id="lat-id" value="0">
-			<input type="hidden" name="lng" id="lng-id" value="0">
-			<!-- <input type="hidden" name="start_arrival" id="start_arrival-id" value="start"> -->
-		</form>
+		
 		<ons-page>
 			<ons-toolbar>
 				<div class="center" onmouseup="location.href='./main.php'">
@@ -390,12 +417,35 @@
 					<p>Location information acquisition</p>
 				</div>
 			</div>
-			<div id="pad">
-				<iframe id="gamepad" src="./gamepad.php" style="width:100%;height:100%;border:0px;"marginwidth="10" marginheight="10"></iframe>
+			
+		
+
+	
+			<div id="target_area">
+				
+				<div id="target">
+					<div id="latlng">
+						<form action="./log.php" method="POST" name="frmMain" target="sendPhoto">
+							<pre  style="font-size: 105%;">lat <input type="text" name="lat" id="lat-id" value="35.04423053007073"></pre>
+							<pre style="font-size: 105%;">lng <input type="text" name="lng" id="lng-id" value="135.7722187666102"></pre>
+							<input type="hidden" name="state" id="state-id" value="5">
+							<input type="hidden" name="ymd" id="ymd-id" value="0000/00/00">
+							<input type="hidden" name="time" id="time-id" value="00:00:00">
+							<!-- <input type="hidden" name="start_arrival" id="start_arrival-id" value="start"> -->
+						</form>
+					</div>
+					<div id="button_area">
+						<button id="pan_target"onclick="mapCenterToTarget();">target</button>
+						<button id="pan_rover"onclick="mapCenterToRover();">rover</button>
+						<br>
+						<button id="set_target"onclick="set_target_pin();">set</button>
+						<button id="set_target"onclick="send_target();">go</button>
+					</div>
+				</div>
 			</div>
 		</ons-page>
 		
 	<iframe name="sendPhoto" style="width:0px;height:0px;border:0px;"></iframe>
-	<script src="https://maps.googleapis.com/maps/api/js?key=APIKey&callback=initMap" async defer></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=APIkey&callback=initMap" async defer></script>
 	</body>
 </html>

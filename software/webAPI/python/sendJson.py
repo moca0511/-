@@ -12,15 +12,9 @@ json_data = {
     "lng" : args[3]
 }
 
+JSON_PATH=args[4]
+
 data = json.dumps(json_data)
 print(data)
-
-
-response = requests.post(
-    url,
-    data
-    )
-
-res_data = response.json()
-
-print(res_data)
+with open(JSON_PATH, 'w') as f:
+    json.dump(json_data, f, ensure_ascii=False, indent=4)

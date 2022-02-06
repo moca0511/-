@@ -14,7 +14,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Rpi_Pico:Pico U?
+L power-rescue:Pico-Rpi_Pico U?
 U 1 1 617DE19D
 P 7550 3350
 F 0 "U?" H 7550 4565 50  0000 C CNN

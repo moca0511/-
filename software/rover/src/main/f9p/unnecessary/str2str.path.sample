@@ -1,0 +1,3 @@
+STR2SSTR_PATH=/home/pi/rtklib/RTKLIB_v243/RTKLIB/app/consapp/str2str/gcc
+BASE_ADDRESS=10.43.0.28
+#BASE_ADDRESS=DESKTOP-TRAKTC6.local

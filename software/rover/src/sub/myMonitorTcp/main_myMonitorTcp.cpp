@@ -1,18 +1,20 @@
-#include "tcpLib/myClient/tcpClient.h"
+#include "tcpServerClient/tcpClient.h"
 #include <string.h>
 #include <iostream>
 tcpStruct clientS, serverR;
 
 int main(int argc, char *argv[])
 {
+	char *readUserName = NULL;
+	bool flgUsingUserName = false;
 	char printBuf[50];
 	int sd;
-	if (argc != 3)
+	if ((argc != 1) && (argc != 2))
 	{
-		printf("option : myTcpServerAddress\n");
+		printf("option : [readUserName]\n");
 		return 0;
 	}
-	char *hostnm = argv[1];
+	const char *hostnm = ADDR__MY_TCP_SERVER;
 	const char *portnm = MY_TCP_POT;
 
 	strcpy(clientS.userName, "monitor");
@@ -22,6 +24,13 @@ int main(int argc, char *argv[])
 
 	sd = myTcpConnect(hostnm, portnm);
 
+	if (argc == 2)
+	{
+		flgUsingUserName = true;
+		readUserName = argv[1];
+		printf("%s\n", readUserName);
+	}
+
 	if (sd == -1)
 	{
 		printf("サーバに接続できませんでした。\n");
@@ -30,6 +39,7 @@ int main(int argc, char *argv[])
 
 	printf("tcpStructのflgMonitorがtrueになっているデータを表示\n");
 	int count = 0;
+	//printf("read user=%s", readUserName);
 	while (1)
 	{
 		switch (clientRecv(sd, &serverR, sizeof(tcpStruct))) //データ受信(ブロッキングなし)
@@ -37,9 +47,12 @@ int main(int argc, char *argv[])
 		case 1:
 			if (serverR.flgMonitor)
 			{
+				if ((flgUsingUserName) && (strcmp(serverR.userName, readUserName) != 0))
+				{
+					break;
+				}
 				printf("%s", serverR.buf);
 			}
-
 			break; //読み込み成功
 		case 0:
 			break; //状態変化なし。

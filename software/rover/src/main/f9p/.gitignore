@@ -1,3 +1,5 @@
 str2str.path
 *.nmea
-*.cm
+commd.sh
+#commdschool.sh
+__pycache__

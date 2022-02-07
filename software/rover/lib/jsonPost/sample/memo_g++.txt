@@ -1,0 +1,15 @@
+sampleのコンパイル用メモ
+
+下記をsampleディスクで実行
+main_xxx.cpp部分は必要なものに変更可能
+
+必要環境
+sudo apt install nlohmann-json-dev
+sudo apt-get install libcurl4-openssl-dev
+
+g++ -o sample-1.out main_send.cpp ../postJson.cpp ../myJsonRW.cpp -I../../ -Wno-psabi -lcurl 
+g++ -o sample-2.out main_str2num.cpp ../myJsonRW.cpp -I../../ -Wno-psabi -lcurl 
+g++ -o sample-3.out main_num2str.cpp ../myJsonRW.cpp -I../../ -Wno-psabi -lcurl 
+g++ -o sample-4.out main_totalJson.cpp ../postJson.cpp ../myJsonRW.cpp -I../../ -Wno-psabi -lcurl 
+g++ -o sample-5.out main_totalJson2.cpp ../postJson.cpp ../myJsonRW.cpp -I../../ -Wno-psabi -lcurl 
+

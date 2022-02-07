@@ -36,8 +36,10 @@ private:
 	void setup();
 
 public:
+	MoterDriver10A();
 	MoterDriver10A(int pwmPin, int dirPin);
 	~MoterDriver10A();
+	void set(int pwmPin, int dirPin);
 	int rotation(int data);
 	int setRotationDirection(int num);
 	void sleep() { rotation(M_PWM_SLEEP); };

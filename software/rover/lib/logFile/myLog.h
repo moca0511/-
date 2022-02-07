@@ -5,12 +5,8 @@
 #ifndef _MY_LOG_H_
 #define _MY_LOG_H_
 
-#include <iostream>
-#include <iomanip>
 #include <sstream>
 #include <fstream>
-
-#include <stdlib.h>
 
 #define ENV_ROVER_DIR_PATH "PRO4_ROVER_DIR_PATH"
 #define FILE_PATH_DEFF_LOG "./log/log.log"
@@ -25,11 +21,13 @@ class myLogFile
 private:
 	std::ofstream writing_file;
 	void write(const char str[]);
+	void myFileOpen();
+
 public:
 	std::string filename;
-	myLogFile();
-	myLogFile(const char name[]);
-	myLogFile(const int pathNum);
+	myLogFile(const bool flgPrint = true);
+	myLogFile(const char name[], const bool flgPrint = true);
+	myLogFile(const int pathNum, const bool flgPrint = true);
 	~myLogFile();
 	void fileInit();
 	void print(const char str[]);
@@ -37,6 +35,7 @@ public:
 	void printSimple(const char str[]);
 	std::string getDatetimeStr();
 	const char *getRoverDirPath();
+	std::string getFileName() { return filename; };
 
 	void setAddRoverLogPath(const char path[]);
 };
@@ -44,7 +43,6 @@ public:
 /*
 memo:
 writing_file.open(filename, std::ios::app); //std::ios::out=上書き、std::ios::app=追記
-
 */
 
 #endif

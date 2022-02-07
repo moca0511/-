@@ -1,25 +1,25 @@
-#include "tcpLib/consoleClient/consoleClient.h"
+#include "tcpServerClient/consoleClient.h"
 #include <string.h>
 #include <iostream>
 
 int main(int argc, char *argv[])
 {
+	consoleTcpClient v;
 	tcpStruct clientS, serverR;
 	int sd;
-	if (argc != 3)
+	if (argc != 2)
 	{
-		printf("option : myTcpServerAddress sendType\n");
+		printf("option : sendType\n");
 		return 0;
 	}
-	char *hostnm = argv[1];
+	const char *hostnm = ADDR__MY_TCP_SERVER;
 	const char *portnm = MY_TCP_POT;
 
-	strcpy(clientS.userName, "roverConsole");
-	clientS.dataType = atoi(argv[2]);
-	clientS.flgMonitor = false;
+
+	init_tcpStruct(&clientS, "roverConsole");
+	clientS.dataType = atoi(argv[1]);
 
 	sd = myTcpConnect(hostnm, portnm);
-
 	if (sd == -1)
 	{
 		printf("サーバに接続できませんでした。\n");
@@ -56,7 +56,6 @@ int main(int argc, char *argv[])
 		if (kbhit())
 		{
 			int t;
-			consoleTcpClient v;
 			std::string inputStr;
 			t = getchar();
 			clientS.buf[0] = '\0';

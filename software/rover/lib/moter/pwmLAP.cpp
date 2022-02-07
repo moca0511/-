@@ -1,4 +1,4 @@
-#include "pwmLAP.h"
+#include "moter/pwmLAP.h"
 char wiringSetupFlg=false;
 
 MoterDriver10A::MoterDriver10A(int pwmPin, int dirPin)
@@ -8,6 +8,24 @@ MoterDriver10A::MoterDriver10A(int pwmPin, int dirPin)
 		wiringPiSetupGpio();
 		wiringSetupFlg = true;
 	}
+	pwm_Pin = pwmPin;
+	dir_Pin = dirPin;
+	PwmRange = DEF_PWM_RANGE;
+	PwmClock = DEF_PWM_CLOCK;
+	setup();
+}
+
+MoterDriver10A::MoterDriver10A()
+{
+	if (wiringSetupFlg == false)
+	{
+		wiringPiSetupGpio();
+		wiringSetupFlg = true;
+	}
+}
+
+void MoterDriver10A::set(int pwmPin, int dirPin)
+{
 	pwm_Pin = pwmPin;
 	dir_Pin = dirPin;
 	PwmRange = DEF_PWM_RANGE;

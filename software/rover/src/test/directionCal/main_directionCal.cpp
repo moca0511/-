@@ -7,7 +7,7 @@ void doubleCal(double base, double now, double range)
 	double temp;
 
 	printf("base=%.2f, now=%.2f, range=%.2f\n", base, now, range);
-	temp = differenceDirection(base, now);
+	temp = getDifferenceDirection(base, now);
 	printf("difference mod = %.2f\n", temp);
 	printf("int range = %s\n", (ifDirectionRange(base, now, range) ? "true" : "false"));
 	printf("\n");

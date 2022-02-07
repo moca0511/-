@@ -1,0 +1,7 @@
+[submodule "src/test/subModule/setting/baseRover"]
+	path = gitSubModule/base/baseRover
+	url = https://github.com/i-naoyuki/baseRover.git
+[submodule "gitSubModule/rtk/RTKLIB"]
+	path = gitSubModule/rtk/RTKLIB
+	url = https://github.com/tomojitakasu/RTKLIB.git
+	branch = rtklib_2.4.3

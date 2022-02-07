@@ -1,0 +1,4 @@
+/src/sub/config/
+/src/sub/slackRead.py
+/src/sub/slackSend.py
+/src/sub/getBaseUbxFromSlack.py

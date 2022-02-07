@@ -1,4 +1,4 @@
-#include "tcpLib/consoleClient/consoleClient.h"
+#include "tcpServerClient/consoleClient.h"
 #include <iostream>
 
 const std::vector<std::vector<std::string>> strList = {
@@ -6,11 +6,22 @@ const std::vector<std::vector<std::string>> strList = {
 	{},
 	{},
 	{
-		"1 1 1000 0",
-		"255 255 999 0",
+		//"1 1 1000 0",
+		//"255 255 999 0",
+		"50 128 999 0",
+		"1 128 999 0",
 		"128 128 888 0",
 	},
-	{"1 0 0 0 180 0"},
+	{
+		//"4 0 0 100 0 0",
+		//"1 35.04569267158931 135.77194960138794 0 0 0"
+
+		"2 0 0 1.5 180 0",
+		"2 0 0 1 270 0",
+		"2 0 0 1.5 0 0",
+		"2 0 0 1 90 0",
+
+	},
 	{
 		"2 1000 0",
 		"3 999 0",
@@ -25,20 +36,19 @@ int main(int argc, char *argv[])
 	tcpStruct clientS, serverR;
 	consoleTcpClient v;
 	int sd;
-	if (argc != 3)
+	if (argc != 2)
 	{
-		printf("option : myTcpServerAddress sendType\n");
+		printf("option : sendType\n");
 		return 0;
 	}
-	char *hostnm = argv[1];
+	const char *hostnm = ADDR__MY_TCP_SERVER;
 	const char *portnm = MY_TCP_POT;
 	clientS.flgMonitor = false;
 	strcpy(clientS.userName, "roverConsole_pattern");
 
-	clientS.dataType = atoi(argv[2]);
+	clientS.dataType = atoi(argv[1]);
 
 	sd = myTcpConnect(hostnm, portnm);
-
 	if (sd == -1)
 	{
 		printf("サーバに接続できませんでした。\n");
@@ -72,11 +82,5 @@ int main(int argc, char *argv[])
 	}
 
 	while (clientRecv(sd, &serverR, sizeof(tcpStruct)) == 1)
-	{
-	}
+		;
 }
-
-/*
-0 35.472222 133.050556 0 0
-1 0 0 21.21518366 490.58216516
-*/

@@ -7,3 +7,5 @@
 /src/test/test/*
 
 *.log
+
+*.inc

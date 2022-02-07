@@ -7,18 +7,18 @@ sh ./checkEnv.sh
 
 echo " "
 
-PATH_FILE="./pro4_rover_path.path"
+PATH_FILE=./pro4_rover_path.path
 
-if [ ! -e ${PATH_FILE} ];then 
+if [ ! -e ${PATH_FILE} ]; then
 	echo "pro4_rover_path.pathが見つかりません"
 	echo "source ./addEnv.shはenvVarディレクトリで実行してください"
 	exit 1
 fi
 
-. ${PATH_FILE}
+# shellcheck disable=SC1090
+.  ${PATH_FILE}
 export PRO4_ROVER_DIR_PATH
 echo PRO4_ROVER_DIR_PATHを更新した
-
 
 echo " "
 

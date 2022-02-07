@@ -1,18 +1,27 @@
 #include "myLog.h"
 
-myLogFile::myLogFile(const char name[])
-{
-	filename = name;
-}
+#include <iomanip>
+#include <stdlib.h>
 
-myLogFile::myLogFile()
+// デフォルトファイルにログを保存
+myLogFile::myLogFile(const bool flgPrint)
 {
-	printf("log set\n");
 	setAddRoverLogPath(FILE_PATH_DEFF_LOG);
-	printf("%s\n", filename.c_str());
+	if (flgPrint)
+		printf("log set %s\n", filename.c_str());
+	myFileOpen();
 }
 
-myLogFile::myLogFile(const int pathMode)
+// 引数1のファイルにログを保存
+myLogFile::myLogFile(const char name[], const bool flgPrint)
+{
+	setAddRoverLogPath(name);
+	if (flgPrint)
+		printf("log set %s\n", filename.c_str());
+	myFileOpen();
+}
+
+myLogFile::myLogFile(const int pathMode, const bool flgPrint)
 {
 	const char *addPath;
 	switch (pathMode)
@@ -28,14 +37,32 @@ myLogFile::myLogFile(const int pathMode)
 		exit(1);
 		break;
 	}
-	printf("log set\n");
 	setAddRoverLogPath(addPath);
-	printf("%s\n", filename.c_str());
+	if (flgPrint)
+		printf("log set %s\n", filename.c_str());
+	myFileOpen();
 }
 
 myLogFile::~myLogFile()
 {
 	writing_file.close();
+}
+
+void myLogFile::myFileOpen()
+{
+	writing_file.open(filename, std::ios::app); //std::ios::out=上書き、std::ios::app=追記
+	if (!writing_file)
+	{
+		printf("%sが開けませんでした\n", filename.c_str());
+		if (writing_file.is_open())
+		{
+			printf("%sは既に開かれていました。\n");
+		}
+		else
+		{
+			return;
+		}
+	}
 }
 
 void myLogFile::setAddRoverLogPath(const char path[])
@@ -48,19 +75,25 @@ void myLogFile::setAddRoverLogPath(const char path[])
 
 void myLogFile::write(const char str[])
 {
-	writing_file.open(filename, std::ios::app); //std::ios::out=上書き、std::ios::app=追記
+	if (!writing_file)
+	{
+		printf("failが開けていません\n");
+		//ファイルが開けていない
+		return;
+	}
 	writing_file << str;
-	writing_file.close();
+	//writing_file.close();
+	writing_file.flush();
 }
 
 void myLogFile::fileInit()
 {
-	//writing_file.close();
+	writing_file.close();
 
 	writing_file.open(filename, std::ios::out);
 	writing_file << "\0";
 	writing_file.close();
-	//writing_file.open(filename, std::ios::app); //std::ios::out=上書き、std::ios::app=追記
+	myFileOpen();
 }
 
 std::string myLogFile::getDatetimeStr()
@@ -82,14 +115,16 @@ std::string myLogFile::getDatetimeStr()
 
 void myLogFile::print(const char str[])
 {
-	std::string print = getDatetimeStr() + " : " + str;
-	write(print.c_str());
+	char tmp[1024];
+	sprintf(tmp, "%s:%s", getDatetimeStr().c_str(), str);
+	write(tmp);
 }
 
 void myLogFile::print(std::string str)
 {
-	std::string print = getDatetimeStr() + " : " + str;
-	write(print.c_str());
+	char tmp[1024];
+	sprintf(tmp, "%s:%s", getDatetimeStr().c_str(), str.c_str());
+	write(tmp);
 }
 
 void myLogFile::printSimple(const char str[])

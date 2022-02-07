@@ -1,8 +1,33 @@
 #include "f9p_tcp.h"
 
+#include <stdio.h>		//printf(), fprintf(), perror()
+#include <sys/socket.h> //socket(), bind(), accept(), listen()
+//#include <arpa/inet.h>	// struct sockaddr_in, struct sockaddr, inet_ntoa(), inet_aton()
+#include <stdlib.h> //atoi(), exit(), EXIT_FAILURE, EXIT_SUCCESS
+#include <string.h> //memset(), strcmp()
+#include <unistd.h> //close()
+
+#include <netdb.h>
+#include <netinet/in.h>
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#include <math.h>
+
+F9P_TCP::F9P_TCP()
+{
+	for (int i = 0; i < F9P_STR_ELEMENT; i++)
+	{
+		sStr[i] = NULL;
+	}
+}
+
 //ホスト名とIPアドレスから接続をTCP行う  (*未テスト)
 //引数1=ホスト名(IPアドレス)、引数2=ポート番号
-void F9P_TCP::access(char hostname_str[], char port_str[])
+void F9P_TCP::access(const char hostname_str[], const char port_str[])
 {
 	char temp[256];
 	hostname2ip(hostname_str, temp);
@@ -58,7 +83,7 @@ int F9P_TCP::ascCheck(char c)
 
 //ホスト名からIPアドレス取得
 //引数1==ホスト名(IPアドレス)、引数2=検索結果保存用文字列
-void F9P_TCP::hostname2ip(char hostname_str[], char ip_str[])
+void F9P_TCP::hostname2ip(const char hostname_str[], char ip_str[])
 {
 	struct sockaddr_in addr;
 	struct hostent *host;
@@ -72,7 +97,7 @@ void F9P_TCP::hostname2ip(char hostname_str[], char ip_str[])
 
 //IPアドレスとポート番号を参考にTCP接続
 //引数1=IPアドレス、引数2=ポート番号
-void F9P_TCP::myConnect(char IP_str[], char port_str[])
+void F9P_TCP::myConnect(const char IP_str[], const char port_str[])
 {
 	memset(&servSockAddr, 0, sizeof(servSockAddr));
 
@@ -99,7 +124,7 @@ void F9P_TCP::myConnect(char IP_str[], char port_str[])
 
 	if (connect(sock, (struct sockaddr *)&servSockAddr, sizeof(servSockAddr)) < 0)
 	{
-		perror("connect() failed.");
+		perror("f9p connect failed");
 		exit(EXIT_FAILURE);
 	}
 
@@ -241,4 +266,12 @@ void F9P_TCP::myStrtokS()
 
 		tok = myStrtok(NULL, s2);
 	}
+}
+
+double F9P_TCP::convStr_nmea2google(int elemnt)
+{
+	double temp;
+	temp = strtod(sStr[elemnt], NULL) / 100.000000000000000;
+	temp = floor(temp) + ((temp - floor(temp)) / 60.0) * 100.0;
+	return temp;
 }

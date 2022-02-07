@@ -1,4 +1,4 @@
-#include "vincenty.hpp"
+#include "vincenty.h"
 
 namespace my_lib
 {

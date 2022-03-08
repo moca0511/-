@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+#ローバサーバ間tcp通信　クライアント側プログラム
+#tcp_client_start.shにて実行
 import requests
 import socket
 import pickle
@@ -30,10 +31,12 @@ def main():
     JSON_SEND_PATH=args[3]
     JSON_RCV_PATH=args[4]
     #try:
+    #サーバに接続
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((IP, int(PORT)))
         while True:
             try:
+                #受信処理
                 s.settimeout(1.0)
                 msg=s.recv(BUFFER_SIZE)
                 d = pickle.loads(msg)
@@ -41,6 +44,7 @@ def main():
                 with open(JSON_RCV_PATH, 'w') as wf:
                     json.dump(d, wf, ensure_ascii=False, indent=4)
                 s.send(msg)
+            #1s間受信がなかったらローバステータス送信
             except socket.timeout:
                 with open(JSON_SEND_PATH, 'r') as rf:
                     
